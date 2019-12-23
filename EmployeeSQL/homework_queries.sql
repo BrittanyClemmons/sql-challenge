@@ -50,6 +50,9 @@ WITH dept_info AS (
 					FROM management;
 
 --List the department of each employee: employee number, last name, first name, and department name
+
+--Select department names from department table
+--Join with dept_emp table to get emp_no
 WITH department_name AS (
 	SELECT de.emp_no, d.dept_name
 	FROM departments AS d
@@ -57,6 +60,7 @@ WITH department_name AS (
 		ON d.dept_no = de.dept_no
 
 ),
+    --Adding employee legal names
 	employee_info AS (
 		SELECT e.emp_no, e.last_name, e.first_name, dn.dept_name
 		FROM employees AS e
@@ -64,6 +68,7 @@ WITH department_name AS (
 			ON e.emp_no = dn.emp_no
 	
 	),
+        --Create final table for users to query
 		department_staff AS (
 			SELECT *
 			FROM  employee_info
