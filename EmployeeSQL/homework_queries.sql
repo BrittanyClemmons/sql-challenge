@@ -76,3 +76,66 @@ WITH department_name AS (
 		
 			SELECT *
 			FROM department_staff;
+
+--List all employees whose first name is "Hercules" and last names begin with "B."
+SELECT *
+FROM employees
+WHERE first_name = 'Hercules' AND last_name LIKE 'B%';
+
+--List the all employees in the Sales department: employee number, last name, first name, and department name
+WITH department_name AS (
+	SELECT de.emp_no, d.dept_name
+	FROM departments AS d
+	JOIN dept_emp AS de
+		ON d.dept_no = de.dept_no
+
+),
+	employee_info AS (
+		SELECT e.emp_no, e.last_name, e.first_name, dn.dept_name
+		FROM employees AS e
+		JOIN department_name AS dn
+			ON e.emp_no = dn.emp_no
+	
+	),
+        --Final table for users to query
+		department_staff AS (
+			SELECT *
+			FROM  employee_info
+		)
+            --Create query for all 'Sales' employees
+			SELECT *
+			FROM department_staff
+			WHERE dept_name = 'Sales';
+
+--List the all employees in the Sales and Development departments: employee number, last name, first name, and department name
+WITH department_name AS (
+	SELECT de.emp_no, d.dept_name
+	FROM departments AS d
+	JOIN dept_emp AS de
+		ON d.dept_no = de.dept_no
+
+),
+	employee_info AS (
+		SELECT e.emp_no, e.last_name, e.first_name, dn.dept_name
+		FROM employees AS e
+		JOIN department_name AS dn
+			ON e.emp_no = dn.emp_no
+	
+	),
+        --Final table for users to query
+		department_staff AS (
+			SELECT *
+			FROM  employee_info
+		)
+            --Create query for all 'Sales' and 'Development' employees
+			SELECT *
+			FROM department_staff
+			WHERE dept_name = 'Sales'
+			   OR dept_name = 'Development';
+
+
+--In descending order, list the frequency count of employee last names, i.e., how many employees share each last name.
+SELECT last_name, COUNT(last_name)
+FROM employees
+GROUP BY 1
+ORDER BY 2 DESC;
