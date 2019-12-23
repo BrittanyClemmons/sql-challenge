@@ -48,3 +48,26 @@ WITH dept_info AS (
 				)
 					SELECT *
 					FROM management;
+
+--List the department of each employee: employee number, last name, first name, and department name
+WITH department_name AS (
+	SELECT de.emp_no, d.dept_name
+	FROM departments AS d
+	JOIN dept_emp AS de
+		ON d.dept_no = de.dept_no
+
+),
+	employee_info AS (
+		SELECT e.emp_no, e.last_name, e.first_name, dn.dept_name
+		FROM employees AS e
+		JOIN department_name AS dn
+			ON e.emp_no = dn.emp_no
+	
+	),
+		department_staff AS (
+			SELECT *
+			FROM  employee_info
+		)
+		
+			SELECT *
+			FROM department_staff;
